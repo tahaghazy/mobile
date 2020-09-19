@@ -2,7 +2,7 @@ from django.contrib.sitemaps import Sitemap
 from .models import Item
 from django.shortcuts import reverse
 from .views import ShopView
-from .views import home
+from .views import *
 class PostSitemap(Sitemap):
     changefreq = "hourly"
     priority = 0.8

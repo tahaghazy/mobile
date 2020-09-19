@@ -1,17 +1,5 @@
 from django.urls import path
-from .views import (
-    ItemDetailView,
-    add_to_cart,
-    remove_from_cart,
-    ShopView,
-    OrderSummaryView,
-    remove_single_item_from_cart,
-    CheckoutView,
-    PaymentView,
-    AddCouponView,
-    RequestRefundView,
-    CategoryView
-)
+from .views import *
 from . import views
 from .views import contactView, successView
 
@@ -41,5 +29,9 @@ urlpatterns = [
     path('contact/', contactView, name='contact'),
     path('success/', successView, name='success'),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name="sitemap"),
+    path('register/', views.register, name='register'),
+    #path('login/', LoginView.as_view(template_name ='user/login.html'), name='login'),
+    path('login/', views.login_user, name='login'),
+
 
 ]

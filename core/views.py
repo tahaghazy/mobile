@@ -448,4 +448,52 @@ def contactView(request):
 
 def successView(request):
     return HttpResponse('Success! Thank you for your message.')
+from . import forms
+from .forms import *
+def register(request):
+    if request.method == 'POST':
+        form = UsercreationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            # username = form.cleaned_data['username']
+            new_user.set_password(form.cleaned_data['password1'])
+            new_user.save()
+            # messages.success(
+            #    request, 'تهانينا {} لقد تمت عملية التسجيل بنجاح.'.format(username))
+            messages.success(
+                request, f'congratulations {new_user} ')
+            return redirect('core:login')
+    else:
+        form = UsercreationForm()
+    return render(request, 'register.html', {
+        'title': 'التسجيل',
+        'form': form,
+    })
+from django.contrib.auth import login, authenticate, logout
+
+
+def login_user(request):
+    if request.method == 'POST':
+        form = LoginForm()
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'تم تسجيل الدخول بنجاح')
+            return redirect('core:home')
+
+
+        else:
+            messages.warning(
+                request, 'هناك خطأ في اسم المستخدم أو كلمة المرور.')
+
+    else:
+        form = LoginForm()
+    context = {
+        'title': 'تسجيل الدخول',
+        'form': form,
+
+    }
+    return render(request, 'login.html', context, )
 
